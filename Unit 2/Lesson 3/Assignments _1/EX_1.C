@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : lab_1.c
+ Name        : EX_1.c
  Author      : Ahmed Osama
  Version     :
  Copyright   : Your copyright notice
- Description : Lab 1 in C Basics (Arrays) , Ansi-style
+ Description : HW_1 in C Basics, Ansi-style
  ============================================================================
  */
 

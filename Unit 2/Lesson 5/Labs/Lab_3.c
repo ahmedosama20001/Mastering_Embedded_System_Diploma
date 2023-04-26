@@ -1,6 +1,7 @@
+
 /*
  ============================================================================
- Name        : Lab_6.c
+ Name        : ASSIGNMENT1.c
  Author      : Ahmed Osama
  Version     :
  Copyright   : Your copyright notice
@@ -11,22 +12,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-int main(void)
+void printnumbers(int n)
 {
 	int i ,j ;
-	for(i=0 ; i<=9 ; i++)
+	for(i=0 ; i<=n ; i++)
 	{
-		for(j=0 ; j<=9-i ; j++)
+		for(j=0 ; j<=n-i ; j++)
 		{
 			printf("%d ",j);
 		}
 		printf("\n");
 	}
+}
+int main(void)
+{
+	printnumbers(9);
 	return 0;
 }
 
-		
+
 
 /*
         *****Output*****
@@ -41,7 +45,6 @@ int main(void)
 0 1 2 
 0 1 
 0 
-
 ---------------------
 
 */

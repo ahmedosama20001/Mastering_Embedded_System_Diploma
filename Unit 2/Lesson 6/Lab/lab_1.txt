@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<string.h>
+struct Scomplex
+{
+	double m_R;
+	double m_I;
+};
+struct Scomplex ReadComplex(char name[])
+{
+	struct Scomplex c;
+	printf("Enter %s complex value :" , name);
+	fflush(stdin);
+	fflush(stdout);
+	scanf("%lf , %lf" , &c.m_R , &c.m_I);
+	return c;
+}
+struct Scomplex AddComplex(struct Scomplex a , struct Scomplex b)
+{
+	struct Scomplex c ;
+	c.m_R = a.m_R + b.m_R;
+	c.m_I = a.m_I + b.m_I;
+	return c ;
+}
+void printcomplex (char name[] , struct Scomplex c)
+{
+	printf("%s = (%lf) + j(%lf)\r\n" , name , c.m_R , c.m_R);
+}
+int main()
+{
+	struct Scomplex x , y ,z ;
+	x= ReadComplex("X");
+	y= ReadComplex("Y");
+	z= AddComplex(x , y);
+	printcomplex("Z" , z);
+}

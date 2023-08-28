@@ -14,20 +14,24 @@ void Default_HAndler()
 
 void NMI_Handler(void)__attribute__((weak, alias ("Default_HAndler")));;
 void H_fault_Handler(void)__attribute__((weak, alias ("Default_HAndler")));;
-void MM_Fault_Handler(void)__attribute__((weak, alias ("Default_HAndler")));;
-void Bus_Fault(void)__attribute__((weak, alias ("Default_HAndler")));;
-void Usage_Fault_Handler(void)__attribute__((weak, alias ("Default_HAndler")));;
 
-extern unsigned int _stack_top ;
+//booking 1024 Byte located by .bss thriugh uninitialized array of int 256 element (246 *4 =1024) 
+static unsigned long Stack_top[256] ;
 
-uint32_t vectors[] __attribute__((section(".vectors")))   = {
-	(uint32_t) &_stack_top ,
+/*uint32_t vectors[] __attribute__((section(".vectors")))   = {
+	(uint32_t) (&Stack_top[0] + sizeof(Stack_top)),
 	(uint32_t) &Reset_Handler,
 	(uint32_t) &NMI_Handler,
-	(uint32_t) &H_fault_Handler,
-	(uint32_t) &MM_Fault_Handler,
-	(uint32_t) &Bus_Fault,
-	(uint32_t) &Usage_Fault_Handler
+	(uint32_t) &H_fault_Handler
+	
+};*/
+
+void (* const g_p_Vectors[])() __attribute__((section(".vectors"))) = 
+{
+	(void(*)()) ((unsigned long)Stack_top + sizeof(Stack_top)),
+	 &Reset_Handler,
+	 &NMI_Handler,
+	 &H_fault_Handler
 };
 
 extern unsigned int _E_text ;

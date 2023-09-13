@@ -17,8 +17,8 @@ int main()
 	char temp_text[40];
 	while(1)
 	{
-		DPRINTF("\n==========***==========");
-		DPRINTF("\n ===# Choose from the following options #=== \n");
+		DPRINTF("\n\t\t\t\t\t==========***==========***==========***==========***==========***==========");
+		DPRINTF("\n\t\t\t\t\t ===# Choose from the following options #=== \n");
 		DPRINTF("\n\t 1: Add Student ");
 		DPRINTF("\n\t 2: Delete Student ");
 		DPRINTF("\n\t 3: View Students ");
@@ -30,7 +30,8 @@ int main()
 		DPRINTF("\n ===# Enter your choice #=== ");
 
 		gets(temp_text);
-		DPRINTF("\n==========***==========");
+		DPRINTF("\n\t\t\t\t\t==========***==========***==========***==========***==========***==========");
+
 
 
 		switch(atoi(temp_text))

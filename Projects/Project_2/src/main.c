@@ -32,7 +32,8 @@ int main(void)
 		DPRINTF("\n\t6:=# Count Students #=");
 		DPRINTF("\n\t7:=# Update Student #=");
 		DPRINTF("\n\t8:=# Add_From_File #=");
-		DPRINTF("\n\t9:=# Show All Students");
+		DPRINTF("\n\t9:=# Show All Students #==");
+		DPRINTF("\n\t10:=# Exit #==");
 		DPRINTF("\nEnter an Option : ");
 		gets(temp_text);
 		DPRINTF("\n==========***==========***==========");
@@ -65,6 +66,9 @@ int main(void)
 		case 9:
 			Show_All_Students(&FIFO_UART);
 			break;
+		case 10:
+			DPRINTF("\n\t\t\t\t==========***==========***====# Thank you for using my database #====***==========***==========");
+			exit(main);
 		default:
 			DPRINTF("\n=====!!! wrong option !!!=====");
 			break;

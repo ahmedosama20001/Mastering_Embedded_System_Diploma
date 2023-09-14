@@ -125,12 +125,12 @@ FIFO_Buf_Status Find_Student_By_Roll(FIFO_Buf_t *fifo)
 
 	int ID , i ;
 	char temp_text[50];
-	DPRINTF("Enter Student ID to search :");
+	DPRINTF("\nEnter Student ID to search :");
 	gets(temp_text);
 	ID = atoi(temp_text);
 	if(Find_The_Roll(fifo,ID) == NULL)
 	{
-		DPRINTF("=====# This ID not exist #=====");
+		DPRINTF("\n=====# This ID not exist #=====");
 		return FIFO_Null;
 	}
 	else
@@ -159,25 +159,25 @@ FIFO_Buf_Status Delete_Student_By_Roll(FIFO_Buf_t *fifo)
 	int ID_num;
 	Student_data_t *Student_ID ;
 	char temp_text[50];
-	DPRINTF("Enter Student ID That you Want Delete : \n");
+	DPRINTF("\nEnter Student ID That you Want Delete : \n");
 	gets(temp_text);
 	ID_num = atoi(temp_text);
 	Student_ID = Find_The_Roll(fifo , ID_num);
 	if(Student_ID == NULL)
 	{
-		DPRINTF("*====# This ID doesn't exist #====*");
+		DPRINTF("\n*====# This ID doesn't exist #====*");
 		return FIFO_Null;
 	}
 	else
 	{
 		if(FIFO_dequeue(fifo , Student_ID) == FIFO_no_error)
 		{
-			DPRINTF("=====# ID Deleted successfully #=====");
+			DPRINTF("\n=====# ID Deleted successfully #=====");
 			return FIFO_no_error ;
 		}
 		else
 		{
-			DPRINTF("=====# ID Deleted Failed #=====");
+			DPRINTF("\n=====# ID Deleted Failed #=====");
 			return FIFO_Null ;
 		}
 	}
@@ -192,20 +192,23 @@ FIFO_Buf_Status Find_Student_By_Course_ID(FIFO_Buf_t *fifo)
 		return FIFO_full ;
 	int i ,j, courses_ID , counter=0 ;
 	char temp_text[50];
-	Student_data_t *Student_ID ;
-	DPRINTF("Enter Course ID :")
+	Student_data_t *Student_ID = fifo->tail;
+	DPRINTF("\nEnter Course ID :")
 	gets(temp_text);
 	courses_ID = atoi(temp_text);
+	DPRINTF("\n====# Information about students in course number ( %d ) #====\n",courses_ID);
 	for(i=0 ; i<fifo->count ; i++)
 	{
+
 		for(j=0 ; Student_ID->course_ID[j]!= NULL; j++)
 		{
 			if(courses_ID == Student_ID->course_ID[j])
 			{
-				DPRINTF("\nFirst Name Of Course_Number %d : %s ",courses_ID,Student_ID->First_name);
-				DPRINTF("\nLast Name Of Course_Number %d : %s",courses_ID,Student_ID->Last_name);
-				DPRINTF("\nRoll Number Of Course_Number %d : %d",courses_ID,Student_ID->ID);
-				DPRINTF("\nGPA Of Course_Number %d : %f",courses_ID,Student_ID->GPA);
+				DPRINTF("\nFirst Name: %s ",Student_ID->First_name);
+				DPRINTF("\nLast Name: %s",Student_ID->Last_name);
+				DPRINTF("\nRoll Number: %d",Student_ID->ID);
+				DPRINTF("\nGPA: %f",Student_ID->GPA);
+				DPRINTF("\n\t=====***=====\n");
 				counter++;
 			}
 		}
@@ -220,8 +223,8 @@ FIFO_Buf_Status Find_Student_By_Course_ID(FIFO_Buf_t *fifo)
 	}
 	if(counter == 0)
 	{
-		DPRINTF("=====# No Students in this Course #=====");
-		return FIFO_Null;
+		DPRINTF("\n=====# No Students in this Course #=====");
+		return FIFO_empty;
 	}
 	return FIFO_no_error;
 }
@@ -235,42 +238,46 @@ FIFO_Buf_Status Total_Student_Number(FIFO_Buf_t *fifo)
 	}
 	else
 	{
-		DPRINTF("The Total Number of Student is : %d" ,fifo->count );
+		DPRINTF("\nThe Total Number of Student is : %d\n" ,fifo->count );
 	}
 	return FIFO_no_error;
 }
 
 FIFO_Buf_Status Update_Student_By_Roll(FIFO_Buf_t *fifo)
 {
-	if(!fifo->base || !fifo->head || !fifo->tail)
+	/*if(!fifo->base || !fifo->head || !fifo->tail)
 		return FIFO_Null ;
 	//  Check FIFO is FULL
 	if(FIFO_IS_FULL(fifo)== FIFO_full)
-		return FIFO_full ;
-	Student_data_t *Student ;
-	int ID , i  , courses_num;
-	char temp_text[50];
+		return FIFO_full ;*/
 	if(fifo->count == 0)
 	{
 		DPRINTF("=====# The Database is empty #=====");
 		return FIFO_Null;
 	}
-	DPRINTF("Enter the Student ID Number that you want to update :\n ");
+	Student_data_t *Student ;
+	int ID , i  , courses_num;
+	char temp_text[50] , choice[50];
+	DPRINTF("\nEnter the Student ID Number that you want to update :\n ");
 	gets(temp_text);
 	ID = atoi(temp_text);
+	Student = Find_The_Roll(fifo,ID);
+
 	if(Student == NULL)
 	{
-		DPRINTF("This Student ID %d is not exist",ID);
+		DPRINTF("\n===# This Student ID %d is not exist #===",ID);
 		return FIFO_Null;
 	}
+
 	DPRINTF("=====## Choose the Data that you want to Update ##=====\n");
 	DPRINTF("\t1- First name\n");
 	DPRINTF("\t2- Last name\n");
 	DPRINTF("\t3- GPA\n");
 	DPRINTF("\t4- Courses ID's\n");
-	gets(temp_text);
+	DPRINTF("\nEnter choice :")
 
-	switch(atoi(temp_text))
+	gets(choice);
+	switch(atoi(choice))
 	{
 	case 1:
 		DPRINTF("Enter The New  First name:\n");
@@ -285,11 +292,11 @@ FIFO_Buf_Status Update_Student_By_Roll(FIFO_Buf_t *fifo)
 	case 3:
 		DPRINTF("Enter The New  GPA:\n");
 		gets(temp_text);
-		Student->GPA  =atof(temp_text);
+		Student->GPA = atof(temp_text);
 		DPRINTF("### UPDATED ###\n");
 		break;
 	case 4:
-		DPRINTF("Enter The Number of Courses:\n");
+		DPRINTF("\nEnter The Number of Courses:\n");
 		gets(temp_text);
 		courses_num = atoi(temp_text);
 		for(i=0 ; i<courses_num ; i++)
@@ -310,7 +317,7 @@ FIFO_Buf_Status Show_All_Students(FIFO_Buf_t *fifo)
 	Student_data_t *Students_info = fifo->tail;
 	if(fifo->count == 0)
 	{
-		DPRINTF("=====## The Database is empty ##=====");
+		DPRINTF("\n=====## The Database is empty ##=====");
 		return FIFO_Null;
 	}
 	for(i=0 ; i<fifo->count ; i++)
@@ -347,7 +354,7 @@ FIFO_Buf_Status Find_Student_By_First_Name(FIFO_Buf_t *fifo)
 	int i , counter=0 ;
 	char temp_text[50];
 	Student_data_t *Student_FN = fifo->tail ;
-	DPRINTF("Enter Student First Name to find :")
+	DPRINTF("\nEnter Student First Name to find :")
 	scanf("%s" ,temp_text);
 	for(i=0 ; i<fifo->count ; i++)
 	{
@@ -379,7 +386,7 @@ FIFO_Buf_Status Find_Student_By_First_Name(FIFO_Buf_t *fifo)
 	}
 	if(counter == fifo->count)
 	{
-		DPRINTF("=====# No Students with this name #=====");
+		DPRINTF("\n=====# No Students with this name #=====");
 		return FIFO_empty;
 	}
 	return FIFO_no_error;
@@ -448,7 +455,7 @@ Student_data_t* Find_The_Roll(FIFO_Buf_t *fifo , int num_ID)
 			DPRINTF(" Student ID Found Successfully\n ");
 			return CurrentStudent;
 		}
-		else if((CurrentStudent+1)== (fifo->base + fifo->length))
+		if((CurrentStudent+1)== (fifo->base + fifo->length))
 		{
 			CurrentStudent = fifo->base;
 		}
